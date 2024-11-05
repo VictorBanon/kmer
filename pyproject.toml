@@ -20,7 +20,7 @@ etc = [
 ]
 
 [project.scripts]
-run = "scripts.count_kmer:main"
+run = "scripts.main:main"
 
 [tool.ruff]
 line-length = 100
