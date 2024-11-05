@@ -10,12 +10,13 @@ fn write_to_csv(file_path: &str, data: &KmerCounter) {
         .expect("Unable to write header");
 
     for (kmer, count) in data {
-        wtr.write_record(&[kmer, &count.to_string()])
+        wtr.write_record(&[kmer, &count.to_string().as_str()])
             .expect("Unable to write record");
     }
 
     wtr.flush().expect("Unable to flush CSV writer");
 }
+
 fn make_seq(size: usize) -> String {
     let choices = ['A', 'C', 'G', 'T'];
     let mut rng = rand::thread_rng();

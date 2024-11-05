@@ -1,12 +1,13 @@
+use pyo3::prelude::*;
 use std::collections::HashMap;
 
-pub type KmerCounter = Vec<(String, usize)>;
+pub type KmerCounter<'a> = HashMap<&'a str, usize>;
 
 pub fn count_kmers(seq: &str, k: usize) -> KmerCounter {
-    let mut cnt = HashMap::new();
+    let mut cnt = KmerCounter::new();
 
     if seq.len() < k {
-        return Vec::new();
+        return cnt;
     }
 
     for i in 0..(seq.len() - k + 1) {
@@ -14,13 +15,17 @@ pub fn count_kmers(seq: &str, k: usize) -> KmerCounter {
         *cnt.entry(slice).or_insert(0) += 1;
     }
 
-    let mut sorted_counts: KmerCounter = cnt.iter().map(|(k, v)| (k.to_string(), *v)).collect();
-    sorted_counts.sort_by(|a, b| {
-        b.1.cmp(&a.1) // Counts in descending order
-            .then_with(|| a.0.cmp(&b.0)) // Then keys in ascending order
-    });
+    cnt
+}
 
-    sorted_counts
+#[pyfunction]
+pub fn count_kmers_py(seq: &str, k: usize) -> PyResult<KmerCounter> {
+    Ok(count_kmers(seq, k))
+}
+
+#[pymodule]
+fn kmers(m: &Bound<'_, PyModule>) -> PyResult<()> {
+    m.add_function(wrap_pyfunction!(count_kmers_py, m)?)
 }
 
 #[cfg(test)]
@@ -29,15 +34,15 @@ mod tests {
 
     #[test]
     fn test_no_kmers() {
-        let expected: KmerCounter = Vec::new();
+        let expected = KmerCounter::new();
         assert_eq!(count_kmers("AAA", 6), expected);
     }
 
     #[test]
     fn test_small_seq() {
         let mut expected = KmerCounter::new();
-        expected.push(("AAACGT".to_string(), 1));
-        expected.push(("AACGTG".to_string(), 1));
+        expected.insert("AAACGT", 1);
+        expected.insert("AACGTG", 1);
         assert_eq!(count_kmers("AAACGTG", 6), expected);
     }
 }

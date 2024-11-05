@@ -10,14 +10,15 @@ import numpy as np
 import pandas as pd
 from Bio import SeqIO
 
-# import plotly.express as px
-# import plotly.io as pio
-from scripts.count_kmer import count_kmers
+# from scripts.count_kmer import count_kmers
+from kmers import count_kmers_py as count_kmers
+
+SPATH = Path(__file__).parent.parent
 
 
 def _main(
-    ipath=Path("src/data"),
-    opath=Path("src/result"),
+    ipath=SPATH / "data",
+    opath=SPATH / "result",
     number_replica=10,
     use_cache=False,
 ):
@@ -50,7 +51,8 @@ def _main(
                 else:
                     print(f"Computing {genomic}")
 
-                    six_mer_obs: Counter = count_kmers(str(record.seq))
+                    six_mer_obs = Counter()
+                    six_mer_obs += count_kmers(str(record.seq), k=6)
                     six_mer_sim = copy.deepcopy(six_mer_obs)
                     for _ in range(number_replica - 1):
                         # Unir la lista de nuevo en una cadena
@@ -59,12 +61,10 @@ def _main(
                         seq_perm = "".join(seq_perm)
                         six_mer_sim += count_kmers(seq_perm, k=6)
 
-                    # ?
-                    six_mer_sim = Counter({key: value / 10 for key, value in six_mer_sim.items()})
                     # Divide counter1 by counter2
                     six_mer_obs = Counter(
                         {
-                            key: np.log(six_mer_obs[key] / (six_mer_sim[key] + 1))
+                            key: np.log(six_mer_obs[key] / (1 + six_mer_sim[key] / 10))
                             for key in six_mer_obs
                         }
                     )
