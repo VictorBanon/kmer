@@ -1,0 +1,30 @@
+# Assembly name:  ASM694v2
+# Organism name:  Salmonella enterica subsp. enterica serovar Typhimurium str. LT2 (enterobacteria)
+# Infraspecific name:  strain=LT2
+# Taxid:          99287
+# BioSample:      SAMN02604315
+# BioProject:     PRJNA241
+# Submitter:      Washington University Genome Sequencing Center
+# Date:           2016-01-13
+# Assembly type:  na
+# Release type:   major
+# Assembly level: Complete Genome
+# Genome representation: full
+# Relation to type material: assembly from type material
+# RefSeq category: Reference Genome
+# GenBank assembly accession: GCA_000006945.2
+# RefSeq assembly accession: GCF_000006945.2
+# RefSeq assembly and GenBank assemblies identical: yes
+#
+## Assembly-Units:
+## GenBank Unit Accession	RefSeq Unit Accession	Assembly-Unit name
+## GCA_000006955.2	GCF_000006955.2	Primary Assembly
+#
+# Ordered by chromosome/plasmid; the chromosomes/plasmids are followed by
+# unlocalized scaffolds.
+# Unplaced scaffolds are listed at the end.
+# RefSeq is equal or derived from GenBank object.
+#
+# Sequence-Name	Sequence-Role	Assigned-Molecule	Assigned-Molecule-Location/Type	GenBank-Accn	Relationship	RefSeq-Accn	Assembly-Unit	Sequence-Length	UCSC-style-name
+ANONYMOUS	assembled-molecule	na	Chromosome	AE006468.2	=	NC_003197.2	Primary Assembly	4857450	na
+pSLT	assembled-molecule	pSLT	Plasmid	AE006471.2	=	NC_003277.2	Primary Assembly	93933	na

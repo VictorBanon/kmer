@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "rafa_help"
+version = "1.0.0"
+readme = "README.md"
+dependencies = [
+    "Bio", 
+    "pandas",
+    "numpy",
+    "polars",
+]
+
+[project.optional-dependencies]
+etc = [
+    "pytest",
+    "ruff",
+]
+
+[project.scripts]
+run = "scripts.count_kmer:main"
+
+[tool.ruff]
+line-length = 100
+output-format = "concise"

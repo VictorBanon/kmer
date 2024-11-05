@@ -1,0 +1,33 @@
+# Assembly name:  ASM1782153v1
+# Organism name:  Helicobacter pylori (e-proteobacteria)
+# Infraspecific name:  strain=MT5135
+# Taxid:          210
+# BioSample:      SAMN18350190
+# BioProject:     PRJNA715181
+# Submitter:      National Cancer Institute
+# Date:           2021-04-07
+# Assembly type:  na
+# Release type:   major
+# Assembly level: Complete Genome
+# Genome representation: full
+# Assembly method: HGAP v. 3.0
+# Expected final version: yes
+# Genome coverage: 1435.1x
+# Sequencing technology: PacBio Sequel
+# RefSeq category: Representative Genome
+# GenBank assembly accession: GCA_017821535.1
+# RefSeq assembly accession: GCF_017821535.1
+# RefSeq assembly and GenBank assemblies identical: yes
+#
+## Assembly-Units:
+## GenBank Unit Accession	RefSeq Unit Accession	Assembly-Unit name
+## GCA_017821545.1	GCF_017821545.1	Primary Assembly
+#
+# Ordered by chromosome/plasmid; the chromosomes/plasmids are followed by
+# unlocalized scaffolds.
+# Unplaced scaffolds are listed at the end.
+# RefSeq is equal or derived from GenBank object.
+#
+# Sequence-Name	Sequence-Role	Assigned-Molecule	Assigned-Molecule-Location/Type	GenBank-Accn	Relationship	RefSeq-Accn	Assembly-Unit	Sequence-Length	UCSC-style-name
+ANONYMOUS	assembled-molecule	na	Chromosome	CP071982.1	=	NZ_CP071982.1	Primary Assembly	1615199	na
+pMT5135	assembled-molecule	pMT5135	Plasmid	CP071983.1	=	NZ_CP071983.1	Primary Assembly	9259	na
