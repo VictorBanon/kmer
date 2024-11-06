@@ -12,6 +12,7 @@ from Bio import SeqIO
 
 # from scripts.count_kmer import count_kmers
 from kmers import count_kmers_py as count_kmers
+from kmers import shuffle_str_py
 
 SPATH = Path(__file__).parent.parent
 
@@ -45,6 +46,7 @@ def _main(
         with gzip.open(genomic, "rt") as handle:
             for record in SeqIO.parse(handle, "fasta"):
                 file_output = opath / f"{record.id}.csv"
+                seq = str(record.seq)
 
                 if use_cache and file_output.exists():
                     print(f"{file_output} already exists. Skipping {genomic}.")
@@ -55,10 +57,10 @@ def _main(
                     six_mer_obs += count_kmers(str(record.seq), k=6)
                     six_mer_sim = copy.deepcopy(six_mer_obs)
                     for _ in range(number_replica - 1):
-                        # Unir la lista de nuevo en una cadena
-                        seq_perm = list(str(record.seq))
-                        random.shuffle(seq_perm)
-                        seq_perm = "".join(seq_perm)
+                        seq_perm = shuffle_str_py(seq)
+                        # assert len(seq) == len(seq_perm)
+                        # assert Counter(seq) == Counter(seq_perm)
+                        # print(seq[:20], seq_perm[:20])
                         six_mer_sim += count_kmers(seq_perm, k=6)
 
                     # Divide counter1 by counter2
