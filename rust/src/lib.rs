@@ -27,6 +27,38 @@ fn shuffle_str(seq: &str) -> String {
     seq_perm.into_iter().collect()
 }
 
+fn shuffle_str_kmer_r_method(seq: &str, k: i32) -> String {
+    // Gueto implementation
+    let mut comb_k: Vec<&str> = vec![]; 
+    if k==2 {
+        comb_k = vec!["A", "T", "C", "G"]; 
+    } else if k==3 {
+        comb_k = vec!["AA","AT","AC","AG","TA","TT","TC","TG","CA","CT","CC","CG","GA","GT","GC","GG"]; 
+    } else {
+        !todo!()// Raise an error
+    }
+    // comb_k should be shuffle also
+    let mut rng = thread_rng();
+    comb_k.shuffle(&mut rng); 
+
+    //permute for every (k-1)mer
+    let mut seq_p: String = seq.to_string();
+    for kmer in &comb_k {
+        //split  
+        let mut perm: Vec<String> = seq_p.split(kmer).map(|s| s.to_string()).collect();
+        //shuffle 1 to n-1, ignore 
+        if perm.len() > 2 {
+            let mut rng = thread_rng();
+            let size = perm.len(); 
+            perm[1..size - 1].shuffle(&mut rng); // Shuffle only the middle elements
+        }
+        //joint
+        seq_p = perm.join(kmer);
+    }
+    seq_p 
+
+}
+
 #[pyfunction]
 pub fn count_kmers_py(seq: &str, k: usize) -> PyResult<KmerCounter> {
     Ok(count_kmers(seq, k))
@@ -66,5 +98,29 @@ mod tests {
         let seq = "AACGGTA";
         let seq_perm = shuffle_str(seq);
         assert_eq!(count_kmers(seq, 1), count_kmers(&seq_perm, 1))
+    }
+    #[test]
+    fn test_shuffle_str_r_2() {
+        let seq = "CAACTGGGCACATAATGCGTACGCCCATCTAGTACACCCA";
+        let seq_perm = shuffle_str_kmer_r_method(seq,2);
+        // Print the original and shuffled sequences
+        println!("Original sequence: {}", seq);
+        println!("Shuffled sequence: {}", seq_perm);
+        // Check that `seq_perm` and `seq` are different
+        assert_ne!(seq, &seq_perm);
+        // Check that the k-mer counts are still the same
+        assert_eq!(count_kmers(seq, 2), count_kmers(&seq_perm, 2))
+    }
+    #[test]
+    fn test_shuffle_str_r_3() {
+        let seq = "CAACTGGGCACATAATGCGTACGCCCATCTAGTACACCCA";
+        let seq_perm = shuffle_str_kmer_r_method(seq,3);
+        // Print the original and shuffled sequences
+        println!("Original sequence: {}", seq);
+        println!("Shuffled sequence: {}", seq_perm);
+        // Check that `seq_perm` and `seq` are different
+        assert_ne!(seq, &seq_perm);
+        // Check that the k-mer counts are still the same
+        assert_eq!(count_kmers(seq, 3), count_kmers(&seq_perm, 3))
     }
 }
