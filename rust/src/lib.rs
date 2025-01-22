@@ -68,6 +68,10 @@ pub fn count_kmers_py(seq: &str, k: usize) -> PyResult<KmerCounter> {
 fn shuffle_str_py(seq: &str) -> PyResult<String> {
     Ok(shuffle_str(seq))
 }
+#[pyfunction]
+fn shuffle_str_kmer_r_method_py(seq: &str, k: i32) -> PyResult<String> {
+    Ok(shuffle_str_kmer_r_method(seq,k))
+}
 
 #[pymodule]
 fn kmers(m: &Bound<'_, PyModule>) -> PyResult<()> {
